@@ -1,0 +1,1164 @@
+*call by value and call by reference
+
+#include<stdio.h>
+int add(int *x,int *y)
+{
+   *x=5;
+    *y=8;
+}
+void main()
+{
+    int a=2;
+    int b=3;
+    printf("%d  %d\n",a,b);
+    add(&a,&b);
+    printf("%d  %d",a,b);
+    
+}
+__________________________________________________________________________
+* prime numbers program
+
+
+#include<stdio.h>
+void main()
+{
+    int i,j;
+    for(i=1;i<=100;i++)
+    {
+        for(j=2;j<i;j++)
+        {
+            if(i%j==0)
+                break;
+        }
+            if(i==j)
+            printf("%d\t",i);
+    }
+}
+
+________________________________________________________________________________________
+structure pointer example:
+
+
+#include<stdio.h>
+struct student
+{
+    int roll_no;
+    char grade;
+    float cgpa;
+};
+void main()
+{
+    struct student xyz={21,'A',9.5};
+    struct student *ptr=&xyz;
+    printf("%d\t%c\t%f\t",ptr->roll_no,ptr->grade,ptr->cgpa);
+    printf("%d\t%c\t%f\t",(*ptr).roll_no,(*ptr).grade,(*ptr).cgpa);
+}
+
+___________________________________________________________________________________________
+Function pointers:
+
+#include<stdio.h>
+int add(int x,int y)
+{
+    int z=x+y;
+    return z;
+}
+
+void main()
+{
+    int (*fun)(int,int);
+    fun=add;
+    printf("%d",fun(5,2));
+    
+}
+_________________________________________________
+
+passing function as paramater to other function
+
+
+#include<stdio.h>
+int add(int x,int y)
+{
+    int z=x+y;
+    return z;
+}
+
+void fun(int (*fun)(int,int))
+{
+ printf("%d",fun(3,2));   
+}
+
+void main()
+{
+    fun(add);
+}
+
+____________________________________________________________
+*array of function pointers
+
+
+#include<stdio.h>
+int add(int x,int y)
+{
+    int z=x+y;
+    return z;
+}
+int sub(int x,int y)
+{
+    int z=x-y;
+    return z;
+}
+int mul(int x,int y)
+{
+    int z=x*y;
+    return z;
+}
+void main()
+{
+    int (*fun[3])(int,int)={add,mul,sub};
+    printf("%d\n",fun[0](5,2));
+    printf("%d\n",fun[1](5,2));
+    printf("%d",fun[2](5,2));
+}
+
+______________________________________________________________________________________
+
+typedef example:
+
+#include<stdio.h>
+typedef int x;
+void main()
+{
+   x a=20;
+   x b=30;
+   printf("%d\t%d",a,b);
+}
+
+
+________________________________________________________________
+** #define and set toggle clear bits
+
+#include<stdio.h>
+#define set(val,pos) val|(1<<pos)
+#define clear(val,pos) val&~(1<<pos)
+#define toggle(val,pos) val^(1<<pos)
+void main()
+{
+   printf("%d\t",set(5,1));
+   printf("%d\t",clear(5,1));
+   printf("%d\t",toggle(5,1));
+}
+______________________________________________________________________
+** string rev using recursion and pointers
+
+#include<stdio.h>
+void rev(char *ptr)
+{
+    if(*ptr)
+    {
+    rev(ptr+1);
+    printf("%c",*ptr);
+
+}
+}
+void main()
+{
+  char *str="dinesh";
+  //char str[20]="dinesh";
+  rev(str);
+}
+________________________________________________________________________
+converting litte endian to big endian machine
+
+#include<stdio.h>
+void main()
+{
+int a=0x12345678;
+a=(a>>24&0Xff)|((a&0Xff)<<24)|(a>>8&0Xff00)|((a&0Xff00)<<8);
+printf("%x",a);
+}
+__________________________________________________________________________
+#swaping without using third variable
+
+a=a^b;
+b=a^b;
+a=a^b;
+in single line a^=b^=a^=b;
+------or------
+a=a+b;   
+b=a-b;
+a=a-b;
+__________________________________________________________________________
+addition and substraction without using + and -
+
+#include<stdio.h>
+void main()
+{
+int x=2;
+int y=3;
+int c;
+while(y!=0)
+{
+    c=x&y;//for sub c=~x&y;
+    x=x^y;
+    y=c<<1;
+    
+}
+printf("%d",x);
+}
+__________________________________________________________________________
+#include<stdio.h>
+void main()
+{
+    int x=2;
+    int y=3,count=0,b,sum=0;
+    while(x!=0)
+    {
+    b=x&1;
+    x=x>>1;
+    if(b==1)
+    {
+        sum=sum+(y<<count;)
+    }
+    count++;
+    }
+    printf("%d",sum);
+}
+______________________________________________________________________________
+** passing single structure variable into function
+#include<stdio.h>
+struct x{
+    int a;
+    char b;
+    float c;
+};
+void fun(int *x)
+{
+    *x=20;
+}
+void main()
+{
+    struct x xx;
+    fun(&xx.a);
+    printf("%d",xx.a);
+}
+______________________________________________________________________________
+files
+r-read on success returns null
+w-write if file not created it creates new file
+a-append if file not created it creates new file
+r+ - read and write mode over writes the data
+w+ - read and write mode clear entire file and writes the data
+a+ - read and write the data append the data from end of the file
+______________________________________________________________________________
+ #include <stdio.h>
+static int a=20;// global static
+static int a;
+static int a;// redeclaration of global variable is not an error
+void fun();
+int main()
+{
+    static int a;
+    //static int a; ---> Error
+    //redeclaration of local static is an error 
+    /* local static and global static both are two different variables*/
+    printf("%d\n",a);
+    fun();
+    return 0;
+}
+void fun()
+{
+    printf("global static value is %d",a);
+}
+___________________________________________________________________________________
+// a reference of one function is passed into another function as an argument to call it
+,then it is called as a call back function.
+
+// call back functions
+#include <stdio.h>
+int sum(int a,char b,char*c)
+{
+    printf("%d\n",a);
+    printf("%c\n",b);
+    printf("%s",c);
+    
+}
+void func(int(*fun)(int,char,char *))
+{
+   int a=5;
+   char b='A';
+   char *c="radar";
+   fun(a,b,c);
+}
+int main()
+{
+    int(*fun)(int,char,char *)=&sum;
+    func(fun);
+}
+///
+int square(int n)
+{
+    return n * n;
+}
+void process(int arr[], int size, int (*callback)(int))
+{
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = callback(arr[i]);
+    }
+}
+int main()
+{
+    int arr[] = {1, 2, 9, 4, 5, 6};
+    int size = sizeof(arr)/sizeof(arr[0]);
+    process(arr, size, square);
+    printf("Square of the array elements after processing: ");
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+}
+____________________________________________________________________________________________________________________
+
+
+//double pointer sample example
+#include<stdio.h>
+void fun(char **a)
+{
+    char *temp="world";
+    *a=temp;
+    printf(" fun %s\n",*a);
+}
+void main()
+{
+    char *a="hello";
+    fun(&a);
+    printf(" main %s\n",a);
+}
+___________________________________________________________________
+
+
+
+Rotation of array:
+
+
+#include <stdio.h>
+int main()
+{
+    int i,n,k,temp;
+    int a[5] = {1,2,3,4,5};
+    scanf("%d",&n);
+    for(k=0;k<n;k++)
+    {
+     temp=a[0];
+      for (int i=0;i<5;i++)
+      {
+          a[i]=a[i+1];
+      }
+      a[4]=temp;
+    }
+      for (int i = 0; i<5; i++)
+      {
+          printf("%d ",a[i]);
+          
+      }
+}
+      
+--------------------------------------------------
+fix 3,4;
+
+
+
+#include <stdio.h>
+int main()
+{
+    int i,j,temp,k=0;
+    int a[]={5,4,8,3,2,9,7,3,6,4,8};
+    for(i=k;i<11;i++)
+    {
+        for(j=k;j<11;j++)
+        {
+        if (a[i]==3 && a[j]==4)
+        {
+            temp=a[i+1];
+            a[i+1]=a[j];
+            a[j]=temp;
+            k=i+2;
+        }
+        }
+ 
+    }
+    for(i=0;i<11;i++)
+    {
+        printf("%d ",a[i]);
+    }
+    
+}
+
+
+------------------------------------------------------
+clumps program 
+
+
+
+#include <stdio.h>
+int main()
+{
+    int i,count=0,flag=1;
+    int a[10] = {2,2,3,2,2,3,3,4,4,5};
+    
+      for (int i = 0; i < 10; i++)
+      {
+            if(a[i]==a[i+1] && flag==1)
+            {
+                count++;
+                flag=0;
+            }
+            else if(a[i]!=a[i+1])
+            {
+                flag=1;
+                
+            }
+          
+      }
+    printf("%d",count);
+}
+
+__________________________________________________________________________________
+COMPARE EVEN and ODD PLACE INTEGERS IN ARRAY and return true if any one is same:
+
+
+#include <stdio.h>
+int main()
+{
+int i,temp,temp1,flag=0,flag1=0;
+int a[]={4,9,5,9,4,9,4,9,4};
+temp=a[0];
+temp1=a[1];
+for(i=2;i<9;i++)
+{
+if(temp==a[i] && i%2==0)
+	{flag=1;}
+if(temp!=a[i] && i%2==0)
+    {flag=0;
+	break;}
+}
+
+for(i=3;i<9;i++)
+{
+if(temp1==a[i] && i%2==1)
+	{flag1=1;}
+if(temp1!=a[i] && i%2==1)
+    {flag1=0;
+	break;}
+}
+
+
+if (flag==1 || flag1==1)
+   	printf("true");
+else
+	printf("false");
+}
+_________________________________________________________________________________________________
+Largest palindrome in an array:
+
+#include <stdio.h>
+int main()
+{
+    int a[]={12321,1253,123421,123454321,78546,121};
+    int i,j,x,r=0,largest,temp,temp1=0;
+    for(i=0;i<=5;i++)
+    {   int r=0;
+        temp=a[i];
+        while(a[i]>0)
+        {
+            x=a[i]%10;
+            a[i]=a[i]/10;
+            r=r*10+x;
+        }
+        if(r==temp && temp>temp1)
+        {
+            largest=temp;
+            temp1=temp;
+        }
+    
+    }
+   printf("%d",largest);
+}
+____________________________________________________________________________________________
+
+count the number of time integer repeated  in an array;
+
+#include<stdio.h>
+int main()
+{
+    int i,j,count;
+    char a[]={1,2,3,0,2,5,2,3};
+    for(i=0;i<=7;i++)
+    {
+        count=1;
+        for(j=i+1;j<=7;j++)
+        {
+        if(a[i]==a[j])
+        {
+            count++;
+            a[j]=' ';
+        }
+        }
+        if(a[i]!=' ')
+        {
+        printf("%d %d\n",a[i],count);
+        }
+    }
+}
+________________________________________________________________________________________________________
+
+single linked lists implementation program:
+
+
+#include <stdlib.h>
+#include <stdio.h>
+struct node{
+    int data;
+    struct node *next;
+};
+struct node* inserfront(struct node *front,int val){
+    struct node *temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=val;
+    temp->next=front;
+    front=temp;
+    return front;
+}
+struct node* display(struct node *front){
+    struct node *t1=front;
+    while(t1){
+        printf("%d",t1->data);
+        t1=t1->next;
+    }
+    return front;
+}
+struct node* insertrear(struct node *front,int val){
+     struct node *t1,*temp=(struct node *)malloc(sizeof(struct node));
+     temp->data=val;
+     if(front==NULL){
+         temp->next=front;
+         front=temp;
+     }
+     else{
+         t1=front;
+         while(t1->next!=NULL){
+             t1=t1->next;
+             
+         }
+         temp->next=t1->next;
+         t1->next=temp;
+     }
+     return front;
+}
+struct node* insertmiddle(struct node *front,int val){
+    if(front&&front->next){
+        struct node*t1,*t2,*temp=(struct node *)malloc(sizeof(struct node));
+        temp->data=val;
+        t1=front;
+        t2=front->next;
+        while(t2&&t2->next&&t2->next->next){
+            t2=t2->next->next;
+            t1=t1->next;
+        }
+        temp->next=t1->next;
+        t1->next=temp;
+        
+    }
+    return front;
+}
+struct node* insertpos(struct node *front,int pos,int val){
+    struct node*t1,*temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=val;
+    int count=1;
+    if(pos==1){
+        temp->next=front;
+        front=temp;
+    }
+    else{
+        t1=front;
+        while(count<pos-1){
+            t1=t1->next;
+            count++;
+        }
+        temp->next=t1->next;
+        t1->next=temp;
+    }
+    return front;
+}
+struct node* deletefront(struct node *front){
+    if(front){
+        struct node *t1=front;
+        front=front->next;
+        free(t1);
+    }
+    return front;
+}
+struct node* deleterear(struct node *front){
+ struct node *t1,*t2;
+ if(front&&front->next==NULL){
+     t1=front;
+     front=front->next;
+     free(t1);
+     
+ }
+ else if(front&&front->next){
+     t1=front;
+     while(t1->next->next!=NULL)
+{
+         t1=t1->next;
+     }
+         t2=t1->next;
+         
+
+         t1->next=NULL;
+         free(t2);
+     }
+   return front;
+    
+}
+struct node* deletemiddle(struct node *front){
+    struct node *t1,*t2;
+    if(front&&front->next&&front->next->next){
+        t1=front;
+        t2=front->next;
+        while(t2&&t2->next&&t2->next->next){
+            t2=t2->next->next;
+            t1=t1->next;
+        }
+        t2=t1->next;
+        t1->next=t2->next;
+        free(t2);
+    }
+    return front;
+}
+struct node* deletepos(struct node *front,int pos){
+    struct node *t1,*t2;
+    int count=1;
+    if(pos==1){
+        t1=front;
+       front= front->next;
+        free(t1);
+    }
+    else if(pos>1){
+        t1=front;
+        while(count<pos-1){
+            t1=t1->next;
+            count++;
+        }
+        t2=t1->next;
+        t1->next=t2->next;
+        free(t2);
+    }
+    return front;
+}
+int main()
+{
+   struct node *first=NULL;
+   int choice,val,pos;
+   for( ; ;){
+       printf("enter your choice");
+       scanf("%d",&choice);
+       switch(choice){
+           case 1:
+           printf("enter the value");
+           scanf("%d",&val);
+           first=inserfront(first,val);
+           break;
+           case 2:
+           first=display(first);
+           break;
+           case 3:
+           printf("enter the value");
+           scanf("%d",&val);
+           first=insertrear(first,val);
+           break;
+           case 4:
+           printf("enter the value");
+           scanf("%d",&val);
+           first=insertmiddle(first,val);
+           break;
+           case 5:
+           printf("enter the value");
+           scanf("%d",&val);
+            printf("enter the pos");
+           scanf("%d",&pos);
+           first=insertpos(first,pos,val);
+           break;
+           case 6:
+           first=deletefront(first);
+           break;
+           case 7:
+           first=deleterear(first);
+           break;
+           case 8:
+           first=deletemiddle(first);
+           break;
+           case 9:
+           printf("enter pos to delete\n");
+           scanf("%d",&pos);
+           first=deletepos(first,pos);
+           break;
+       }
+   }
+}
+___________________________________________________________________________________________________
+#include<stdio.h>
+#include<string.h>
+void main()
+{
+    char a[]="this is dinesh from warangal";
+    int len=strlen(a),k=0,i,j=0;
+    char b[100]={'\0'};
+    for(i=len;i>=st0;i--)
+    {
+        if(a[i]!=' ')
+        {
+         b[k]=a[i];
+         k++;
+        }
+    }
+while(j<len)
+{
+    if(a[i]!=' ')
+    {
+        printf("%c",b[j]);
+        j++;
+        i++;
+    }
+    else if(a[i]==' ')
+    {
+        printf(" ");
+        i++;
+    }
+}
+}
+_____________________________________________________________________________________________________
+structure pointer
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX_SIZE 3
+
+struct radar
+{
+    int data;
+};
+
+int main()
+{
+    struct radar *ptr = NULL;
+
+    ptr = malloc(MAX_SIZE*sizeof(struct radar));
+    if (ptr == NULL)
+    {
+        printf("failed to allocate memory\n");
+        return -1;
+    }
+
+    (ptr+0)->data = 10;
+    (ptr+1)->data = 20;
+    (ptr+2)->data = 30;
+
+    for(int i = 0; i<MAX_SIZE; i++)
+    {
+        printf("%d\n", (ptr+i)->data);
+    }
+
+    free(ptr);
+
+    return 0;
+}
+___________________________________________________________________________________________
+    
+   1. Find all the numbers from 0 to 9 is present in the string or not?
+		char[]="12085769225843" o/p= yes
+		char[]="012587643856"  o/p=No
+
+#include <stdio.h>
+#include <string.h>
+int main()
+{   int i,lena,lenb,j,flag=0;
+    char a[]="4897561230";
+    lena=strlen(a);
+    for(i=48;i<58;i++)
+    {
+        for(j=0;j<lena;j++)
+            {
+                if(i==a[j])
+                       { 
+                           flag=1;
+                           break;
+                       }
+                
+            }
+                if(i!=a[j])
+                        {
+                            flag=0;
+                            break;
+                        }
+            
+    }
+if(flag)
+printf("yes all numbers are present");
+else
+printf("no numbers are missing");
+}
+_____________________________________________________________________________________
+
+2.Find the duplicates in the given string
+		char a[]="radar";  o/p=ra
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i,j,count,lena;
+    char a[]="radar";
+    lena=strlen(a);
+    for(i=0;i<lena;i++)
+    {
+        count=1;
+        for(j=i+1;j<lena;j++)
+        {
+        if(a[i]==a[j])
+        {
+            count++;
+            a[j]='\0';
+        }
+        }
+        if(count>1)
+        {
+        printf("%c",a[i]);
+        }
+    }
+}
+
+
+_____________________________________________________________________________________
+3. Remove the duplicates from the given string?
+		char a[]="radar";  o/p=rad
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i,j,count,lena;
+    char a[]="radar";
+    lena=strlen(a);
+    for(i=0;i<lena;i++)
+    {
+        count=1;
+        for(j=i+1;j<lena;j++)
+        {
+        if(a[i]==a[j])
+        {
+            count++;
+            a[j]='\0';
+        }
+        }
+        if(count>=1)
+        {
+        printf("%c",a[i]);
+        }
+    }
+}
+____________________________________________________________________________________
+4. Count the number of times the letter repeated in string
+   char a[]="radar";    o/p:r2a2d1
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i,j,count,lena;
+    char a[]="radar";
+    lena=strlen(a);
+    for(i=0;i<lena;i++)
+    {
+        count=1;
+        for(j=i+1;j<lena;j++)
+        {
+        if(a[i]==a[j])
+        {
+            count++;
+            a[j]='\0';
+        }
+        }
+        if(count>=1 && a[i]!='\0')
+        {
+        printf("%c%d",a[i],count);
+        }
+    }
+}
+__________________________________________________________________________________________
+
+5. Find the most repeated character in the string?
+
+input:radar output:r2
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i,j,count,lena,temp=1;
+    char max;
+    char a[]="radarAAAAr";
+    lena=strlen(a);
+    for(i=0;i<lena;i++)
+    {
+        count=1;
+        for(j=i+1;j<lena;j++)
+        {
+        if(a[i]==a[j])
+         {
+            count++;
+            a[j]='\0';
+         }
+        }
+        if(count>=temp && a[i]!='\0')
+        {
+        temp=count;
+        max=a[i];
+        }
+    }
+    printf("%c%d",max,temp);
+}
+______________________________________________________________________
+
+6. Reverse the words given in the string?
+
+input:my name is suresh 
+output:suresh is name my
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i=0,j=0,len,k;
+    char a[]="my name is suresh";
+    len=strlen(a);
+for(i=len-1;i>=0;i--)
+{
+ if(a[i]==' ')   
+ {   
+     for(k=i+1;k<=strlen(a);k++)
+     {
+         printf("%c",a[k]);
+     }
+     printf(" ");
+     a[i]='\0';
+ }
+}
+for(i=0;i<strlen(a);i++)
+{
+    printf("%c",a[i]);
+}
+}
+______________________________________________________________________________________
+7. program remove extra spaces in a sentence 
+i/p="my   name   is   suresh"
+o/p=" my name is suresh"
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int i=0,j=0,len;
+    char a[]="my    name     is     suresh";
+    len=strlen(a);
+for(i=0;i<=len;i++)
+{
+ if(a[i]==' ' && a[i+1]==' ')
+ {
+     continue;
+ }
+ else
+ {
+     printf("%c",a[i]);
+ }
+}
+}
+_________________________________________________________________________________
+ *imp program in patterns
+
+  
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+    
+int main() {
+    int n;
+    scanf("%d", &n);
+    int size = 2 * n - 1;
+    int start = 0;
+    int end = size-1;
+    int a[size][size];
+
+    while (n != 0) {
+        for (int i = start; i <= end; i++) {
+            for (int j = start; j <= end; j++) {
+                if (i == start || i == end || j == start || j == end)
+                    a[i][j] = n;
+            }
+        }
+        start++;
+        end--;
+        n--;
+    }
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++)
+            printf("%d ", a[i][j]);
+        printf("\n");
+    }
+
+    return 0;
+}
+
+
+		--OR--    https://www.youtube.com/watch?v=F47nCyJgf5s
+
+
+#include<stdio.h>
+int main()
+    {
+        int i,j,n;
+        scanf("%d",&n);
+        
+    for(i=n;i>=1;i--)
+    {
+        for(j=n;j>i;j--)
+        printf("%d ",j);
+        for(j=1;j<=i*2-1;j++)
+        printf("%d ",i);
+        for(j=i+1;j<=n;j++)
+        printf("%d ",j);
+        printf("\n");
+    }
+    for(i=1;i<n;i++)
+    {
+        for(j=n;j>i;j--)
+        printf("%d ",j);
+        for(j=1;j<=2*i-1;j++)
+        printf("%d ",i+1);
+        for(j=i+1;j<=n;j++)
+        printf("%d ",j);
+        printf("\n");
+    }
+    
+}
+
+solution		  : 4 4 4 4 4 4 4  
+                            4 3 3 3 3 3 4   
+                            4 3 2 2 2 3 4   
+                            4 3 2 1 2 3 4   
+                            4 3 2 2 2 3 4   
+                            4 3 3 3 3 3 4   
+                            4 4 4 4 4 4 4 
+_______________________________________________________________________________________________
+program to check whether a string is a palindrome or not
+
+#include <stdio.h> 
+#include<string.h>
+void isPalindrome(char* string) 
+{ 
+	char *ptr, *i; 
+	ptr = string; 
+	while (*ptr != '\0') { 
+		ptr++; 
+	} 
+	ptr=ptr-1; 
+	for (i= string; i<=ptr;i++) { 
+		if (*ptr == *i) 
+			ptr--; 
+		else
+			break; 
+	} 
+	if (i>ptr) 
+		printf("String is Palindrome"); 
+	else
+		printf("String is not a Palindrome"); 
+} 
+
+void main() 
+{ 
+	char str[1000] = "radar"; 
+	isPalindrome(str); 
+} 
+_____________________________________________________________________________________________________
+
+#include <stdio.h>
+int main()
+{
+    char a[]="dineshidone";
+    char b[]="idone";
+    int i=0,j=0,k,count=0;
+    while(a[i]!='\0')
+    {
+        if(a[i]!=b[j])
+        {
+            i++;
+        }
+        else
+        {   k=i+1;
+            while(b[j]!='\0')
+            {
+                if(a[i]!=b[j])
+                {
+                    break;
+                }
+                i++;
+                j++;
+                
+            }
+                if(b[j]=='\0')
+                {
+                   break;
+                   /* for counting no of times substring repeated
+                   if(b[j]=='\0')
+                {
+                    count++;
+                     j=0;
+                     flag=1;
+                }*/
+                }
+                else
+                {
+                    i=k;
+                    j=0;
+                }
+        }
+    }
+    //printf("%d",count);
+    if(b[j]=='\0')
+    {
+        printf("yes");
+    }
+    else
+    {
+        printf("no");
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
